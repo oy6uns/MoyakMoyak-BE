@@ -148,8 +148,8 @@ def generate_answer(query, top_k=2):
 
 app = FastAPI()
 
-@app.post("/final", status_code=201)
-async def makeIcon_URL(query: str):
+@app.post("/chatbot", status_code=201)
+async def ask_pill(query: str):
     # Return the URL
     answer, references = generate_answer(query)
     return {"answer": answer, "references": references}
