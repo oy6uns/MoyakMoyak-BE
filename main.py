@@ -9,7 +9,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
-app.mount("/", StaticFiles(directory="public", html = True), name="static")
+# app.mount("/", StaticFiles(directory="public", html = True), name="static")
 
 load_dotenv()
 # 환경 변수에서 API 키 가져오기
