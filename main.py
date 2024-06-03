@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 # app.mount("/", StaticFiles(directory="public", html = True), name="static")
 
+# .env 파일 로드
 load_dotenv()
 # 환경 변수에서 API 키 가져오기
 api_key = os.getenv('OPENAI_API_KEY')
@@ -33,24 +34,13 @@ index_dimension = index.d  # 인덱스의 차원 확인
 file_paths_path = os.path.join(vector_db_dir, 'file_paths.txt')
 print(f"File paths file: {file_paths_path}")  # 디버깅 용도로 파일 경로 파일 출력
 
-# FAISS 인덱스 로드
-index = faiss.read_index(os.path.join(vector_db_dir, 'vector_db.index'))
-index_dimension = index.d  # 인덱스의 차원 확인
-
-# 파일 경로 로드
-with open(os.path.join(vector_db_dir, 'file_paths.txt'), 'r', encoding='utf-8') as f:
+with open(file_paths_path, 'r', encoding='utf-8') as f:
     file_paths = [line.strip() for line in f]
-
-# # 모든 문서 로드
-# documents = []
-# for path in file_paths:
-#     with open(path, 'r', encoding='utf-8') as file:
-#         documents.append(file.read())
 
 # 모든 문서 로드
 documents = []
 for path in file_paths:
-    full_path = os.path.join(current_dir, path)
+    full_path = os.path.join(current_dir, path)  # 현재 디렉토리와 결합하여 절대 경로 생성
     print(f"Loading document from: {full_path}")  # 디버깅 용도로 각 파일의 전체 경로 출력
     try:
         with open(full_path, 'r', encoding='utf-8') as file:
