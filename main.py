@@ -30,11 +30,23 @@ index_dimension = index.d  # 인덱스의 차원 확인
 with open(os.path.join(vector_db_dir, 'file_paths.txt'), 'r', encoding='utf-8') as f:
     file_paths = [line.strip() for line in f]
 
+# # 모든 문서 로드
+# documents = []
+# for path in file_paths:
+#     with open(path, 'r', encoding='utf-8') as file:
+#         documents.append(file.read())
+
 # 모든 문서 로드
 documents = []
 for path in file_paths:
-    with open(path, 'r', encoding='utf-8') as file:
-        documents.append(file.read())
+    full_path = os.path.join(current_dir, path)
+    print(f"Loading document from: {full_path}")  # 디버깅 용도로 각 파일의 전체 경로 출력
+    try:
+        with open(full_path, 'r', encoding='utf-8') as file:
+            documents.append(file.read())
+    except FileNotFoundError:
+        print(f"Error: File not found - {full_path}")
+        documents.append("")
 
 # 파일 경로와 링크 URL 매핑
 file_path_to_url = {
