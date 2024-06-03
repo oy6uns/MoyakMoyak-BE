@@ -7,6 +7,7 @@ from dotenv import load_dotenv, find_dotenv
 import uvicorn
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 app = FastAPI()
 # app.mount("/", StaticFiles(directory="public", html = True), name="static")
@@ -148,9 +149,12 @@ def generate_answer(query, top_k=2):
 
 app = FastAPI()
 
+class QueryRequest(BaseModel):
+    query: str
+    
 @app.post("/chatbot", status_code=201)
-async def ask_pill(query: str):
-    # Return the URL
+async def ask_pill(request: QueryRequest):
+    query = request.query
     answer, references = generate_answer(query)
     return {"answer": answer, "references": references}
 
