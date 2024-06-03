@@ -20,7 +20,18 @@ openai.api_key = api_key
 
 # 현재 디렉토리 설정
 current_dir = os.getcwd()
+print(f"Current directory: {current_dir}")  # 디버깅 용도로 현재 디렉토리 출력
+
 vector_db_dir = os.path.join(current_dir, 'VectorDB')
+print(f"Vector DB directory: {vector_db_dir}")  # 디버깅 용도로 Vector DB 디렉토리 출력
+
+# FAISS 인덱스 로드
+index = faiss.read_index(os.path.join(vector_db_dir, 'vector_db.index'))
+index_dimension = index.d  # 인덱스의 차원 확인
+
+# 파일 경로 로드
+file_paths_path = os.path.join(vector_db_dir, 'file_paths.txt')
+print(f"File paths file: {file_paths_path}")  # 디버깅 용도로 파일 경로 파일 출력
 
 # FAISS 인덱스 로드
 index = faiss.read_index(os.path.join(vector_db_dir, 'vector_db.index'))
